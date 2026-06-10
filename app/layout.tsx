@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "今天谁干嘛 💑 — 恋爱决策神器",
+  title: "今天谁干嘛 — 恋爱决策神器",
   description:
     "今天吃啥？谁洗碗？谁买单？一键抽选，拒绝选择困难症！专为情侣/伴侣设计的趣味生活决策应用。",
-  keywords: ["情侣", "决策", "吃什么", "家务", "AA制", "盲盒", "恋爱"],
-  authors: [{ name: "恋爱决策神 · 今天谁干嘛" }],
+  keywords: ["情侣", "决策", "吃什么", "家务", "AA制", "恋爱"],
+  authors: [{ name: "今天谁干嘛" }],
   openGraph: {
-    title: "今天谁干嘛 💑 — 恋爱决策神器",
+    title: "今天谁干嘛 — 恋爱决策神器",
     description: "今天吃啥？谁洗碗？谁买单？一键抽选！",
     type: "website",
   },
@@ -32,7 +32,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
-  themeColor: "#FF6B9D",
+  themeColor: "#FAFAFA",
 };
 
 export default function RootLayout({

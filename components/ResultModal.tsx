@@ -2,7 +2,7 @@
 
 // ============================================================
 // ResultModal — 结果弹窗（通用）
-// 带 confetti 飘落动画 ✨
+// 极简风格 · 简洁粒子动画
 // ============================================================
 
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ interface ResultModalProps {
   emoji?: string;
   title: string;
   subtitle: string;
-  /** 小标签 (e.g. "主厨登基") */
+  /** 小标签 */
   badge?: string;
   /** 额外渲染内容 */
   children?: React.ReactNode;
@@ -21,7 +21,7 @@ interface ResultModalProps {
   autoClose?: boolean;
 }
 
-const CONFETTI = ["🌸", "💖", "✨", "🌟", "🎀", "💕", "🩷", "💫", "🍀", "🎉"];
+const CONFETTI = ["▪", "▫", "◆", "◇", "•", "◦", "▸", "◂", "▴", "▾"];
 
 export default function ResultModal({
   open,
@@ -38,9 +38,7 @@ export default function ResultModal({
   useEffect(() => {
     if (open) {
       setMounted(true);
-      // 阻止背景滚动
       document.body.style.overflow = "hidden";
-      // 自动关闭（仅当 autoClose 为 true）
       if (autoClose) {
         const timer = setTimeout(() => {
           onClose();
@@ -57,7 +55,7 @@ export default function ResultModal({
       const t = setTimeout(() => setMounted(false), 300);
       return () => clearTimeout(t);
     }
-  }, [open, onClose]);
+  }, [open, onClose, autoClose]);
 
   if (!mounted) return null;
 
@@ -69,16 +67,16 @@ export default function ResultModal({
     >
       {/* 遮罩 */}
       <div
-        className="absolute inset-0 bg-text-primary/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Confetti 粒子 */}
+      {/* Confetti 粒子 — 极简几何点 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {CONFETTI.map((c, i) => (
           <span
             key={i}
-            className={`absolute text-lg animate-confetti-${(i % 5) + 1}`}
+            className={`absolute text-sm text-text-muted/40 animate-confetti-${(i % 5) + 1}`}
             style={{
               left: `${10 + (i * 17) % 80}%`,
               top: "-20px",
@@ -91,13 +89,13 @@ export default function ResultModal({
 
       {/* 卡片 */}
       <div
-        className={`relative bg-white rounded-3xl p-6 w-full max-w-sm border-3 border-text-primary shadow-2xl transition-all duration-300 ${
+        className={`relative bg-white rounded-2xl p-6 w-full max-w-sm border border-border shadow-xl transition-all duration-300 ${
           open ? "animate-bounce-in" : "scale-75 opacity-0"
         }`}
       >
         {/* 表情大图 */}
         <div className="text-center mb-4">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-pink-lighter via-purple-light to-yellow-light animate-float">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-muted animate-float">
             <span className="text-5xl">{emoji}</span>
           </div>
         </div>
@@ -105,17 +103,17 @@ export default function ResultModal({
         {/* Badge */}
         {badge && (
           <div className="text-center mb-2">
-            <span className="tag-pill animate-heartbeat">{badge}</span>
+            <span className="tag-pill text-xs">{badge}</span>
           </div>
         )}
 
         {/* 标题 */}
-        <h2 className="text-xl font-black text-center text-text-primary mb-2">
+        <h2 className="text-xl font-bold text-center text-text-primary mb-2">
           {title}
         </h2>
 
         {/* 副标题 */}
-        <p className="text-sm text-text-secondary text-center leading-relaxed mb-4">
+        <p className="text-sm text-text-secondary text-center leading-relaxed mb-4 whitespace-pre-line">
           {subtitle}
         </p>
 
@@ -128,13 +126,13 @@ export default function ResultModal({
             onClick={onClose}
             className="btn-primary text-sm px-8 py-2.5"
           >
-            知道啦 🎀
+            知道了
           </button>
         </div>
 
         {/* 底部水印 */}
-        <p className="text-center text-[10px] text-text-secondary/30 mt-3">
-          Powered by 恋爱决策神 · 今天谁干嘛
+        <p className="text-center text-[10px] text-text-muted mt-4">
+          今天谁干嘛
         </p>
       </div>
     </div>

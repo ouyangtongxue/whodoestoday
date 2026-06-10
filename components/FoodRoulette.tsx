@@ -3,6 +3,7 @@
 // ============================================================
 // FoodRoulette — 功能 A：今天吃什么（干饭盲盒）
 // 疯狂摇晃的炒锅 → 老虎机滚动 → 结果揭晓
+// 极简黑白灰风格
 // ============================================================
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -53,7 +54,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
     const name = newFoodName.trim();
     if (!name) return;
     if (foodPool.some((f) => f.name === name)) {
-      alert("这个已经加过了啦～别重复添加嘛 🥺");
+      alert("这个已经加过了，别重复添加");
       return;
     }
     const item: FoodItem = {
@@ -73,11 +74,10 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
   // 开始抽选
   const startRoulette = useCallback(() => {
     if (foodPool.length === 0) {
-      alert("食物池是空的！先加几个你想吃的吧～ 🍽️");
+      alert("食物池是空的！先加几个你想吃的吧");
       return;
     }
     if (foodPool.length === 1) {
-      // 只有一个就直接出结果
       setResult(foodPool[0]);
       setShowResult(true);
       return;
@@ -110,7 +110,6 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
           slowCount++;
           if (slowCount >= slowMax) {
             if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
-            // 最终结果
             const finalIdx = Math.floor(Math.random() * foodPool.length);
             const finalItem = foodPool[finalIdx];
             setResult(finalItem);
@@ -143,15 +142,15 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
       <div className="glass-card p-5">
         {/* 标题 */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-black text-text-primary flex items-center gap-2">
-            <span className="text-2xl">🍳</span>
+          <h2 className="text-lg font-bold text-text-primary flex items-center gap-2">
+            <span className="text-xl">🧑‍🍳</span>
             今天吃什么 · 干饭盲盒
           </h2>
           <button
             onClick={() => setEditMode(!editMode)}
-            className="text-xs font-bold text-pink-primary hover:text-purple-pop transition-colors"
+            className="text-xs font-semibold text-text-secondary hover:text-text-primary transition-colors"
           >
-            {editMode ? "完成 ✅" : "编辑 ✏️"}
+            {editMode ? "完成" : "编辑"}
           </button>
         </div>
 
@@ -164,12 +163,12 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden mb-4"
             >
-              <div className="bg-pink-lighter/30 rounded-2xl p-3 space-y-3">
+              <div className="bg-muted rounded-xl p-3 space-y-3">
                 {/* 添加行 */}
                 <div className="flex gap-2">
                   <button
                     onClick={randomFoodEmoji}
-                    className="shrink-0 w-10 h-10 rounded-xl bg-white border-2 border-pink-200 text-xl flex items-center justify-center hover:scale-110 transition-transform"
+                    className="shrink-0 w-10 h-10 rounded-lg bg-white border border-border text-xl flex items-center justify-center hover:border-text-muted transition-colors"
                     title="随机 emoji"
                   >
                     {newFoodEmoji}
@@ -180,12 +179,12 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                     onChange={(e) => setNewFoodName(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && addFood()}
                     placeholder="输入菜名，如：黄焖鸡..."
-                    className="flex-1 rounded-xl border-2 border-pink-200 px-3 py-2 text-sm font-medium text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:border-pink-primary transition-colors"
+                    className="flex-1 rounded-lg border border-border px-3 py-2 text-sm font-medium text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors"
                     maxLength={12}
                   />
                   <button
                     onClick={addFood}
-                    className="shrink-0 bg-pink-primary text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-purple-pop transition-colors"
+                    className="shrink-0 bg-accent text-white rounded-lg px-4 py-2 text-sm font-semibold hover:bg-accent-hover transition-colors"
                   >
                     添加
                   </button>
@@ -199,8 +198,8 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                       onClick={() => setNewFoodEmoji(emoji)}
                       className={`w-8 h-8 rounded-lg flex items-center justify-center text-lg transition-all ${
                         newFoodEmoji === emoji
-                          ? "bg-pink-primary/20 scale-110 ring-2 ring-pink-primary"
-                          : "bg-white hover:bg-pink-lighter/50"
+                          ? "bg-accent/10 scale-110 ring-1 ring-accent"
+                          : "bg-white hover:bg-muted border border-border"
                       }`}
                     >
                       {emoji}
@@ -214,7 +213,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                     {foodPool.map((item) => (
                       <span
                         key={item.id}
-                        className="inline-flex items-center gap-1 tag-pill cursor-pointer hover:line-through hover:opacity-60 transition-all"
+                        className="inline-flex items-center gap-1 tag-pill cursor-pointer hover:line-through hover:opacity-50 transition-all"
                         onClick={() => removeFood(item.id)}
                         title="点击删除"
                       >
@@ -225,8 +224,8 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                   </div>
                 )}
 
-                <p className="text-[10px] text-text-secondary/50 text-center">
-                  点击已有标签可删除 ✨
+                <p className="text-[10px] text-text-muted text-center">
+                  点击已有标签可删除
                 </p>
               </div>
             </motion.div>
@@ -237,17 +236,17 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
         <div className="text-center">
           {/* 展示区 */}
           <div className="relative mb-5">
-            {/* 锅的背景 */}
+            {/* 展示圆 */}
             <div
-              className={`mx-auto w-40 h-40 rounded-full bg-gradient-to-br from-orange-warm/20 via-yellow-light to-pink-lighter flex items-center justify-center transition-all duration-500 ${
+              className={`mx-auto w-40 h-40 rounded-full bg-muted border-2 border-border flex items-center justify-center transition-all duration-500 ${
                 phase === "shaking" ? "animate-shake-pan" : ""
               } ${phase === "done" ? "animate-pulse-ring" : ""}`}
             >
               {/* 展示内容 */}
               {phase === "idle" && (
-                <div className="text-center animate-float">
-                  <span className="text-5xl">🍳</span>
-                  <p className="text-xs text-text-secondary/60 mt-1 font-medium">
+                <div className="text-center">
+                  <span className="text-5xl">🧑‍🍳</span>
+                  <p className="text-xs text-text-muted mt-1 font-medium">
                     点击下方按钮开抽
                   </p>
                 </div>
@@ -265,7 +264,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                   </motion.span>
                   {displayItem && (
                     <motion.p
-                      className="text-sm font-black text-text-primary mt-1"
+                      className="text-sm font-bold text-text-primary mt-1"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.1 }}
@@ -293,7 +292,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
             onClick={startRoulette}
             disabled={spinning}
             className={`btn-primary text-base px-10 py-3 transition-all duration-300 ${
-              spinning ? "opacity-60 cursor-not-allowed scale-95" : "animate-pulse-ring"
+              spinning ? "opacity-50 cursor-not-allowed" : "animate-pulse-ring"
             }`}
           >
             {spinning ? (
@@ -302,17 +301,13 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
                 正在疯狂翻炒中...
               </span>
             ) : (
-              <span className="flex items-center gap-2">
-                <span>🔥</span>
-                开始干饭！
-                <span>🔥</span>
-              </span>
+              <span>开始干饭</span>
             )}
           </button>
 
           {foodPool.length === 0 && !editMode && (
-            <p className="text-xs text-text-secondary/50 mt-3">
-              👆 先点"编辑"添加你想吃的～
+            <p className="text-xs text-text-muted mt-3">
+              👆 先点"编辑"添加你想吃的
             </p>
           )}
         </div>
@@ -324,7 +319,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
           <ShareButton
             foodPool={foodPool}
             type="food"
-            label="把食物池发给另一半，一起决定吃啥～"
+            label="把食物池发给另一半，一起决定吃啥"
           />
         </div>
       )}
@@ -340,7 +335,7 @@ export default function FoodRoulette({ sharedPool }: FoodRouletteProps) {
         }}
         emoji={result?.emoji ?? "🍽️"}
         title={`今天吃 —— ${result?.name ?? "???"}`}
-        subtitle={`命运之锅已揭晓！别挣扎了，${result?.name ?? "这顿饭"}在召唤你 🍴\n干饭人，干饭魂，干饭都是人上人！`}
+        subtitle={`命运之锅已揭晓！${result?.name ?? "这顿饭"}在召唤你\n干饭人，干饭魂，干饭都是人上人`}
         badge="干饭盲盒 已开"
       >
         {result && (

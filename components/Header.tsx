@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================
-// Header — 顶部可爱导航
+// Header — 极简顶部导航
 // ============================================================
 
 import { useState, useEffect } from "react";
@@ -27,18 +27,18 @@ export default function Header({ onReset }: HeaderProps) {
   };
 
   return (
-    <header className="relative w-full max-w-md mx-auto pt-4 px-4 pb-2">
-      {/* 顶部分享/添加到浮窗提示泡 */}
+    <header className="relative w-full max-w-md mx-auto pt-6 px-4 pb-2">
+      {/* 顶部分享提示泡 */}
       {showTip && (
         <div className="animate-slide-up mb-3 flex justify-center">
-          <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-pink-200 rounded-full px-4 py-2 shadow-lg shadow-pink-100">
+          <div className="inline-flex items-center gap-2 bg-white border border-border rounded-full px-4 py-2 shadow-sm">
             <span className="text-sm">📌</span>
             <span className="text-xs text-text-secondary font-medium">
-              点击右上角 ··· 添加到浮窗，随时打开～
+              点击右上角 ··· 添加到浮窗，随时打开
             </span>
             <button
               onClick={() => setShowTip(false)}
-              className="text-text-secondary/50 hover:text-text-secondary ml-1"
+              className="text-text-muted hover:text-text-secondary ml-1 transition-colors"
             >
               ✕
             </button>
@@ -54,22 +54,18 @@ export default function Header({ onReset }: HeaderProps) {
             wiggle ? "animate-shake-pan" : ""
           }`}
         >
-          <h1 className="text-3xl font-black tracking-tight text-gradient">
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary">
             {APP_TITLE}
           </h1>
         </button>
-        <p className="text-xs text-text-secondary/60 mt-1 font-medium">
-          恋爱决策神器 · 拒绝选择困难症 💘
+        <p className="text-xs text-text-muted mt-1.5 font-normal">
+          拒绝选择困难症
         </p>
       </div>
 
-      {/* 装饰分隔线 */}
-      <div className="flex items-center justify-center gap-2 mt-3">
-        <span className="animate-twinkle text-sm">✨</span>
-        <div className="h-[2px] w-16 rounded-full bg-gradient-to-r from-transparent via-pink-300 to-transparent" />
-        <span className="animate-twinkle animation-delay-300 text-sm">💖</span>
-        <div className="h-[2px] w-16 rounded-full bg-gradient-to-r from-transparent via-purple-300 to-transparent" />
-        <span className="animate-twinkle animation-delay-500 text-sm">✨</span>
+      {/* 装饰分隔线 — 极简单线 */}
+      <div className="flex items-center justify-center mt-4">
+        <div className="h-px w-20 bg-border" />
       </div>
     </header>
   );

@@ -1,8 +1,9 @@
 "use client";
 
 // ============================================================
-// ShareButton — 摇人链接生成器
-// Base64 加密数据 → 生成分享 URL → 一键复制
+// ShareButton — 分享链接生成器
+// Base64 编码数据 → 生成分享 URL → 一键复制
+// 极简黑白灰风格
 // ============================================================
 
 import { useState, useCallback } from "react";
@@ -48,7 +49,6 @@ export default function ShareButton({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // 降级方案：选中文本
       const input = document.createElement("input");
       input.value = shareUrl;
       document.body.appendChild(input);
@@ -70,11 +70,10 @@ export default function ShareButton({
       {/* 触发按钮 */}
       <button
         onClick={handleOpenPanel}
-        className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border-2 border-pink-200 rounded-full px-4 py-2 text-sm font-bold text-pink-primary hover:bg-pink-lighter/30 hover:border-pink-primary transition-all shadow-sm shadow-pink-100"
+        className="inline-flex items-center gap-2 bg-white border border-border rounded-full px-4 py-2 text-sm font-semibold text-text-primary hover:bg-muted hover:border-text-muted transition-all shadow-sm"
       >
         <span>🔗</span>
         发给另一半
-        <span className="animate-swing text-base">💌</span>
       </button>
 
       {/* 分享面板 */}
@@ -88,7 +87,7 @@ export default function ShareButton({
           >
             {/* 遮罩 */}
             <div
-              className="absolute inset-0 bg-text-primary/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
               onClick={() => setShowPanel(false)}
             />
 
@@ -98,25 +97,25 @@ export default function ShareButton({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative bg-white rounded-3xl p-5 w-full max-w-sm shadow-2xl border-2 border-pink-200"
+              className="relative bg-white rounded-2xl p-5 w-full max-w-sm shadow-xl border border-border"
             >
               {/* 标题 */}
               <div className="text-center mb-3">
-                <span className="text-4xl animate-float">💌</span>
-                <h3 className="text-lg font-black text-text-primary mt-1">
-                  把链接发给 {label?.includes("另一半") ? "另一半" : "TA"}
+                <span className="text-4xl animate-float">🔗</span>
+                <h3 className="text-lg font-bold text-text-primary mt-1">
+                  把链接发给另一半
                 </h3>
                 <p className="text-xs text-text-secondary mt-1">
-                  {label ?? "对方打开链接就能看到同样的配置啦～"}
+                  {label ?? "对方打开链接就能看到同样的配置"}
                 </p>
               </div>
 
               {/* URL 展示 */}
-              <div className="bg-pink-lighter/30 rounded-2xl p-3 mb-3">
-                <p className="text-[10px] font-bold text-text-secondary mb-1">
-                  📋 分享链接（已加密你的菜单配置）：
+              <div className="bg-muted rounded-xl p-3 mb-3">
+                <p className="text-[10px] font-semibold text-text-secondary mb-1">
+                  分享链接（已加密你的配置）：
                 </p>
-                <div className="bg-white rounded-xl p-3 break-all text-xs text-text-primary font-mono max-h-20 overflow-y-auto">
+                <div className="bg-white rounded-lg p-3 break-all text-xs text-text-primary font-mono max-h-20 overflow-y-auto border border-border">
                   {shareUrl || "正在生成..."}
                 </div>
               </div>
@@ -125,25 +124,25 @@ export default function ShareButton({
               <div className="flex gap-2">
                 <button
                   onClick={handleCopy}
-                  className={`flex-1 rounded-xl py-3 font-bold text-sm transition-all ${
+                  className={`flex-1 rounded-lg py-3 font-semibold text-sm transition-all ${
                     copied
-                      ? "bg-green-matcha text-white"
-                      : "bg-pink-primary text-white hover:bg-purple-pop"
+                      ? "bg-muted text-text-primary border border-border"
+                      : "bg-accent text-white hover:bg-accent-hover"
                   }`}
                 >
-                  {copied ? "已复制 ✅" : "📋 一键复制链接"}
+                  {copied ? "已复制 ✓" : "一键复制链接"}
                 </button>
                 <button
                   onClick={() => setShowPanel(false)}
-                  className="flex-1 bg-gray-100 rounded-xl py-3 font-bold text-sm text-text-secondary hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-muted rounded-lg py-3 font-semibold text-sm text-text-secondary hover:bg-border transition-colors"
                 >
                   关掉
                 </button>
               </div>
 
               {/* 提示 */}
-              <p className="text-[10px] text-text-secondary/50 text-center mt-3">
-                💡 如果对方用微信打开，直接粘贴到聊天框发送即可
+              <p className="text-[10px] text-text-muted text-center mt-3">
+                如果对方用微信打开，直接粘贴到聊天框发送即可
               </p>
             </motion.div>
           </motion.div>
